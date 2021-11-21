@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.util.StringUtils;
-
 /**
  *
  * @author USUARIO
@@ -32,27 +30,46 @@ public class UserController {
     @Autowired
     private UserService userService;
     
+    
+    /** 
+     * @return List<User>
+     */
     @GetMapping("/all")
     public List<User> getAll() {
         return userService.getAll();
     }
     
+    
+    /** 
+     * @param user
+     * @return User
+     */
     @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
     public User registrar(@RequestBody User user) {
         return userService.registrar(user);
     }
     
+    
+    /** 
+     * @param email
+     * @param password
+     * @return User
+     */
     @GetMapping("/{email}/{password}")
     public User autenticarUsuario(@PathVariable("email") String email, @PathVariable("password") String password) {
        
         return userService.autenticarUsuario(email, password);
     }
     
+    
+    /** 
+     * @param email
+     * @return String
+     */
     @GetMapping("/{email}")
-    public String existeEmail(@PathVariable("email") String email) {
-        String userExist = String.valueOf(userService.existeEmail(email));
-        return StringUtils.capitalize(userExist);
+    public Boolean existeEmail(@PathVariable("email") String email) {
+        return userService.existeEmail(email);
     }
     
 }
